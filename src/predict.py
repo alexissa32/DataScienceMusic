@@ -67,7 +67,7 @@ def create_network(network_input, n_vocab):
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     # Load the weights to each node
-    model.load_weights('weights.hdf5')
+    model.load_weights('weights-improvement-05-3.4739-bigger.hdf5')
 
     return model
 
@@ -116,6 +116,12 @@ def create_midi(prediction_output):
             new_chord = chord.Chord(notes)
             new_chord.offset = offset
             output_notes.append(new_chord)
+        # pattern is a rest
+        elif('rest' in pattern):
+            new_rest = note.Rest(pattern)
+            new_rest.offset = offset
+            new_rest.storedInstrument = instrument.Piano() #???
+            output_notes.append(new_rest)
         # pattern is a note
         else:
             new_note = note.Note(pattern)
